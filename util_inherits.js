@@ -4,6 +4,16 @@ const util = require('util');
 
 // 定義建構子函式
 function Greetr(firstName = 'chris', lastName = 'chang') {
+	// util.inherits將建構子的prototype物件串連起來，而下面這行讓此建構子在new 物件時
+	// 新物件可以取得指定建構子的初始設定內容，也就是用this.xxx這種方式直接加在新物件上的內容
+	// 只要使用call或apply呼叫指定的建構子，並將this傳入即可
+	// 當new Greetr()，會建立一個新物件，並將Greetr中的this指向此新物件，就先叫它x物件
+	// 用call呼叫EventEmitter並將this(代表x物件)傳入，call又會將EventEmitter中的this指向x物件
+	// 因此call執行EventEmitter時，其中所有this.xxxx設定初始內容的動作都指向x物件
+	// 讓x物件取得EventEmitter的所有初始內容
+	// 至此才算是完整繼承了EventEmitter
+	EventEmitter.call(this);
+	
 	this.firstName = firstName;
 	this.lastName = lastName;
 }
